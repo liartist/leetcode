@@ -1,0 +1,71 @@
+https://lartist.tistory.com/7?category=828089
+
+﻿https://leetcode.com/problems/merge-two-sorted-lists/
+
+
+Merge Two Sorted Lists - LeetCode
+
+Level up your coding skills and quickly land a job. This is the best place to expand your knowledge and get prepared for your next interview.
+
+leetcode.com
+난이도: Easy
+
+
+
+Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
+
+
+정렬된 두 linked list를 오름차순으로 병합하는 문제.
+
+두 list를 앞에서부터 탐색하며 작은 요소를 병합 list에 추가하면 된다.
+
+
+
+원래 list를 살리려고 병합된 리스트에서 새로 객체를 만들어가면서 작성했다.
+
+
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null) {
+            return l2;
+        } else if (l2 == null) {
+            return l1;
+        }
+        
+        ListNode merged = new ListNode(-1);
+        ListNode lastOfMerged = merged;
+        
+        ListNode smallerNode = l1;
+        ListNode biggerNode = l2;
+        while (smallerNode != null && biggerNode != null) {
+            if (biggerNode.val < smallerNode.val) {
+                ListNode temp = smallerNode;
+                smallerNode = biggerNode;
+                biggerNode = temp;
+            }
+            
+            lastOfMerged.next = new ListNode(smallerNode.val);
+            lastOfMerged = lastOfMerged.next;
+            smallerNode = smallerNode.next;
+            
+            if (smallerNode == null) {
+                while (biggerNode != null) {
+                    lastOfMerged.next = new ListNode(biggerNode.val);
+                    lastOfMerged = lastOfMerged.next;
+                    biggerNode = biggerNode.next;
+                }
+                break;
+            }
+        }
+        return merged.next;
+    }
+}
