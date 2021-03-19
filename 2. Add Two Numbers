@@ -1,0 +1,75 @@
+https://lartist.tistory.com/14?category=828089
+
+https://leetcode.com/problems/add-two-numbers/
+
+ 
+Add Two Numbers - LeetCode
+
+Level up your coding skills and quickly land a job. This is the best place to expand your knowledge and get prepared for your next interview.
+
+leetcode.com
+난이도: Medium
+
+ 
+
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+ 
+
+문제를 잘 이해하지 못했는데, 예시를 보니 음이 아닌 정수 두 개를 서로 더하는 것이었다.
+
+그 과정에서 linked list로 연결하여 일의 자리부터 연산을 시작한다.
+
+ 
+
+연산 도중 두 리스트 중 하나 이상이 null이 될 때부터 종료 조건이 시작되는데,
+
+이 때 앞 연산의 carry를 생각하고 연산해야 한다.
+
+ 
+
+l1, l2, carry 중 어떤 숫자라도 남아있으면 결과에 더해지는 식으로 연산을 진행하다가,
+
+셋 모두 0 (l1, l2는 null)이 되는 경우를 종료 조건으로 설정했다.
+
+ 
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode output = new ListNode(-1);     // for link with cursor
+        ListNode outputCursor = output;
+        int carry = 0;
+        
+        while (true) {
+            if (l1 == null && l2 == null && carry == 0) {
+                break;
+            }
+            outputCursor.next = new ListNode(0);
+            outputCursor = outputCursor.next;
+            
+            if (l1 != null) {
+                outputCursor.val += l1.val;
+                l1 = l1.next;
+            }
+            if (l2 != null) {
+                outputCursor.val += l2.val;
+                l2 = l2.next;
+            }
+            outputCursor.val += carry;
+            
+            carry = outputCursor.val / 10;
+            outputCursor.val %= 10;
+        }
+        return output.next;     // delete first -1 node
+    }
+}
