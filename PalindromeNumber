@@ -1,0 +1,75 @@
+https://lartist.tistory.com/manage/newpost/3?type=post&returnURL=https%3A%2F%2Flartist.tistory.com%2F3
+
+https://leetcode.com/problems/palindrome-number/
+
+
+Palindrome Number - LeetCode
+
+Level up your coding skills and quickly land a job. This is the best place to expand your knowledge and get prepared for your next interview.
+
+leetcode.com
+난이도: Easy
+
+
+
+Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.
+
+
+
+Follow up:
+
+Coud you solve it without converting the integer to a string?
+
+
+
+숫자를 문자열로 바꾸지 말고 문제를 해결하라고 한다.
+
+palindrome 특성상 음수나 끝에 0이 오는 수는 불가능하다.
+
+따라서 0 또는 양수이면서 일의 자리가 0이 아닌 수를 찾아야 한다.
+
+
+
+나는 처음에 자릿수를 구해야 할 것 같아서 라이브러리를 사용하거나 log 계산을 적용하려고 했는데,
+
+재귀적으로 구현한다면 꼭 자릿수를 구할 필요는 없었다.
+
+
+
+숫자에서 일의 자리 숫자만 구하는 방법은 modulo 연산을 사용하면 된다. (숫자) % 10
+
+일의 자리 숫자를 추출하고 남은 숫자만 남기는 방법은 나누기를 사용하면 된다. (숫자) / 10
+
+이 과정을 반복하면서 일의 자리부터 거꾸로 뽑아내어 계속 쌓아가며 두 숫자의 크기를 비교한다.
+
+뽑아낸 숫자가 잘린 숫자와 같아졌다면 palindrome이다.
+
+뽑아낸 숫자가 더 커졌다면 뽑아낸 숫자의 맨 뒷자리를 제외(/10)하고 다시 비교하여, 같다면 palindrome이다.
+
+
+
+class Solution {
+    public boolean isPalindrome(int x) {
+        int reversedX = 0;
+        int clippedX = x;
+        
+        if (x % 10 == 0 && x != 0) {
+            return false;
+        }
+        
+        while (clippedX >= 0) {
+            int bottom = clippedX % 10;
+            clippedX /= 10;
+            reversedX = 10 * reversedX + bottom;
+            
+            if (reversedX >= clippedX) {
+                if (reversedX == clippedX || reversedX / 10 == clippedX) {
+                    return true;
+                } else {
+                    break;
+                }
+            }
+        }
+        return false;
+    }
+}
